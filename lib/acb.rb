@@ -29,7 +29,7 @@ module Acb
     end
 
     def get_data(row)
-      @columns.map { _1.digest(row) }
+      @columns.map { |column| column.digest(row) }
     end
   end
 
