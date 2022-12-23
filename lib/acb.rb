@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "acb/version"
+require_relative 'acb/version'
 
 module Acb
   class Error < StandardError; end
