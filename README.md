@@ -29,7 +29,7 @@ ActiveRecord::Schema.define do
   end
 end
 
-class Post < ActiveRecord::Base
+class User < ActiveRecord::Base
   has_many :posts
 end
 
