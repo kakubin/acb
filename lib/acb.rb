@@ -3,6 +3,7 @@
 require_relative 'acb/version'
 require 'active_support'
 require 'forwardable'
+require 'csv'
 
 module Acb
   extend ActiveSupport::Concern
