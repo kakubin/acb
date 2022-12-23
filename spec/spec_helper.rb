@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 require 'acb'
+require 'active_record'
+
+conn = { adapter: 'sqlite3', database: ':memory:' }
+ActiveRecord::Base.establish_connection(conn)
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -13,3 +17,5 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+Dir['./spec/support/**/*.rb'].each { |f| require f }
