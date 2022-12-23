@@ -42,14 +42,14 @@ class Comment < ActiveRecord::Base
   belongs_to :post
 end
 
-class PostCsvGenerator
+class PostCsvBuilder
   include Acb
 
   add_column name: 'id'
   add_column name: 'User Name', index: 'user.name'
   add_column name: 'created_at', format: '%Y-%m-%d'
   add_column name: 'Comment Amount', index: 'comments.size'
-  add_column name: 'First Comment', index: ->(post) { post.comments.first.content }
+  add_column name: 'First Comment', index: ->(post) { post.comments.first&.content }
 
   def initialize(user_id)
     @data = Post.where(user_id: user_id)
@@ -60,7 +60,7 @@ class PostCsvGenerator
   end
 end
 
-PostCsvGenerator.new(user_id).content_string
+PostCsvBuilder.new(user_id).content_string
 ```
 
 ## Code of Conduct
