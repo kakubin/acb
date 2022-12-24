@@ -24,7 +24,7 @@ RSpec.describe Acb do
         end
 
         def relations
-          [:user, :comments]
+          %i[user comments]
         end
       end
     end

@@ -1,5 +1,12 @@
 AllCops:
   TargetRubyVersion: 2.6
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - 'gemfiles/*'
+
+Gemspec/RequireMFA:
+  Enabled: false
 
 Style/Documentation:
   Enabled: false
@@ -14,3 +21,5 @@ Style/StringLiteralsInInterpolation:
 
 Layout/LineLength:
   Max: 120
+  Exclude:
+    - 'spec/support/seed.rb'
