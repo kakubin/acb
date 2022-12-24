@@ -45,10 +45,6 @@ module Acb
     end
   end
 
-  def initialize(options = {})
-    @options = options
-  end
-
   def data
     @data = @data.preload(relations) if respond_to?(:relations)
     @data.find_each
@@ -62,10 +58,10 @@ module Acb
     self.class.header.get_data(row)
   end
 
-  def content_string
+  def content_string(**options)
     header_content = header.join(',')
 
-    CSV.generate(header_content, **@options) do |csv|
+    CSV.generate(header_content, **options) do |csv|
       data.each do |row|
         csv << get_data_from(row)
       end
