@@ -8,15 +8,32 @@ on:
   pull_request:
 
 jobs:
-  build:
+  rubocop:
     runs-on: ubuntu-latest
-    name: Ruby ${{ matrix.ruby }}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.1'
+    - run: bundle install
+    - name: Run RuboCop
+      run: bundle exec rubocop -p
+
+  spec:
+    runs-on: ubuntu-latest
+    name: Spec Rails ${{ matrix.gemfile }} on ${{ matrix.ruby }}
     strategy:
       matrix:
-        ruby:
-          - '2.6.10'
-          - '3.1.2'
-
+        gemfile: ['rails_6.0_stable', 'rails_6.1_stable', 'rails_7.0_stable']
+        ruby: ['2.6', '2.7', '3.0', '3.1']
+        exclude:
+          - ruby: '3.1'
+            gemfile: 'rails_6.0_stable'
+          - ruby: '2.6'
+            gemfile: 'rails_7.0_stable'
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
     steps:
     - uses: actions/checkout@v3
     - name: Set up Ruby
@@ -24,5 +41,6 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
-    - name: Run the default task
-      run: bundle exec rake
+
+    - name: Run tests
+      run: bundle exec rspec

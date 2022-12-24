@@ -3,6 +3,7 @@
 require_relative 'acb/version'
 require 'active_support'
 require 'forwardable'
+require 'csv'
 
 module Acb
   extend ActiveSupport::Concern
@@ -28,7 +29,7 @@ module Acb
     end
 
     def get_data(row)
-      @columns.map { _1.digest(row) }
+      @columns.map { |column| column.digest(row) }
     end
   end
 
