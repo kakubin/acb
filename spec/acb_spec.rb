@@ -20,7 +20,6 @@ RSpec.describe Acb do
 
         def initialize
           @data = Post.all
-          super()
         end
 
         def relations

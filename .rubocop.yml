@@ -19,7 +19,14 @@ Style/StringLiteralsInInterpolation:
   Enabled: true
   EnforcedStyle: single_quotes
 
+Style/WordArray:
+  Enabled: false
+
 Layout/LineLength:
   Max: 120
   Exclude:
     - 'spec/support/seed.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
