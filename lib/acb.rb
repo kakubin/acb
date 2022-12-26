@@ -2,46 +2,21 @@
 
 require_relative 'acb/version'
 require 'active_support'
-require 'forwardable'
 require 'csv'
 
 module Acb
   extend ActiveSupport::Concern
 
   autoload :Column, 'acb/column'
-
-  class Header
-    extend Forwardable
-    include Enumerable
-
-    attr_accessor :columns
-
-    def_delegator :@columns, :each
-
-    def initialize
-      @columns = []
-    end
-
-    def push(name, **options)
-      @columns.push(Column.new(name, **options))
-    end
-
-    def keys
-      @columns.map(&:name)
-    end
-
-    def get_data(row)
-      @columns.map { |column| column.digest(row) }
-    end
-  end
+  autoload :Columns, 'acb/columns'
 
   class_methods do
-    def header
-      @header ||= Header.new
+    def columns
+      @columns ||= Columns.new
     end
 
     def add_column(name:, **options)
-      header.push(name, **options)
+      columns.push(name, **options)
     end
   end
 
@@ -50,16 +25,12 @@ module Acb
     @data.find_each
   end
 
-  def header
-    self.class.header.keys
-  end
-
   def get_data_from(row)
-    self.class.header.get_data(row)
+    self.class.columns.get_data(row)
   end
 
   def content_string(**options)
-    header_content = header.join(',')
+    header_content = self.class.columns.header.join(',')
 
     CSV.generate(header_content, **options) do |csv|
       data.each do |row|
