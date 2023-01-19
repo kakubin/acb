@@ -30,7 +30,7 @@ module Acb
   end
 
   def content_string(**options)
-    header_content = self.class.columns.header.join(',')
+    header_content = self.class.columns.header.join(',') + "\n"
 
     CSV.generate(header_content, **options) do |csv|
       data.each do |row|
