@@ -31,6 +31,6 @@ RSpec.describe Acb do
 
     it { is_expected.to be_a String }
 
-    it { expect(subject.count("\n")).to be 201 }
+    it { expect(subject.count("\n")).to be 51 }
   end
 end

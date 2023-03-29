@@ -20,9 +20,9 @@ module ActiveRecord
   end
 end
 
-USER_SIZE = 10
-POST_PER_USER = 20
-COMMENT_PER_POST = 25
+USER_SIZE = 5
+POST_PER_USER = 10
+COMMENT_PER_POST = 3
 
 notes = ActiveRecord::Faker::LOREM.join ' '
 now = Time.now
