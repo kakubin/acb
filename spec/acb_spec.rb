@@ -30,5 +30,7 @@ RSpec.describe Acb do
     let(:target) { klass.new }
 
     it { is_expected.to be_a String }
+
+    it { expect(subject.count("\n")).to be 201 }
   end
 end
