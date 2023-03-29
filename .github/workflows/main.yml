@@ -18,7 +18,7 @@ jobs:
         ruby-version: '3.1'
     - run: bundle install
     - name: Run RuboCop
-      run: bundle exec rubocop -p
+      run: bundle exec rubocop --parallel
 
   spec:
     runs-on: ubuntu-latest
