@@ -5,6 +5,9 @@ AllCops:
   Exclude:
     - 'gemfiles/*'
 
+Gemspec/DevelopmentDependencies:
+  EnforcedStyle: gemspec
+
 Gemspec/RequireMFA:
   Enabled: false
 
