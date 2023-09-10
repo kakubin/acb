@@ -9,8 +9,9 @@ module Acb
         @columns ||= Columns.new
       end
 
-      def add_column(name:, **options)
-        columns.push(name, **options)
+      def add_column(column = nil, name: nil, **options)
+        column ||= Column.new(name, **options)
+        columns.push(column)
       end
     end
 

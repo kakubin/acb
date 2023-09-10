@@ -6,8 +6,8 @@ module Acb
       @columns = []
     end
 
-    def push(name, **options)
-      @columns.push(Column.new(name, **options))
+    def push(column)
+      @columns.push(column)
     end
 
     def header

@@ -30,8 +30,8 @@ RSpec.describe Acb::Columns do
     let(:target) { Post.new(content: 'post content', created_at: Time.new(2022, 12, 24, 18, 0, 0)) }
 
     before do
-      instance.push('name', index: 'content')
-      instance.push('name', index: 'created_at', format: '%Y%m%d%H%M')
+      instance.push(Acb::Column.new('name', index: 'content'))
+      instance.push(Acb::Column.new('name', index: 'created_at', format: '%Y%m%d%H%M'))
     end
 
     it { is_expected.to eq ['post content', '202212241800'] }
