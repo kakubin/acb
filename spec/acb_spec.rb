@@ -5,8 +5,8 @@ RSpec.describe Acb do
     expect(Acb::VERSION).not_to be nil
   end
 
-  describe '#content_string' do
-    subject { target.content_string }
+  describe '#to_csv' do
+    subject { target.to_csv }
 
     let(:klass) do
       Class.new do

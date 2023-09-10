@@ -29,7 +29,7 @@ module Acb
     self.class.columns.get_data(row)
   end
 
-  def content_string(**options)
+  def to_csv(**options)
     CSV.generate(**options) do |csv|
       csv << self.class.columns.header
       data.each do |row|
@@ -37,4 +37,5 @@ module Acb
       end
     end
   end
+  alias content_string to_csv
 end
