@@ -1,16 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.describe Acb do
-  it 'has a version number' do
-    expect(Acb::VERSION).not_to be nil
-  end
-
+RSpec.describe Acb::Base do
   describe '#to_csv' do
     subject { target.to_csv }
 
     let(:klass) do
       Class.new do
-        include Acb
+        include Acb::Base
 
         add_column name: 'id'
         add_column name: 'User Name', index: 'user.name'

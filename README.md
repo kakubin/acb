@@ -60,7 +60,7 @@ class PostCsvBuilder
   end
 end
 
-PostCsvBuilder.new(user_id).content_string
+PostCsvBuilder.new(user_id).to_csv
 ```
 
 ## Code of Conduct
