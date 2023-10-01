@@ -33,3 +33,6 @@ Layout/LineLength:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
+
+Naming/MemoizedInstanceVariableName:
+  Enabled: false

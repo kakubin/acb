@@ -1,21 +1,21 @@
 # frozen_string_literal: true
 
 module Acb
-  class Columns
-    def initialize
-      @columns = []
+  module Columns
+    def columns
+      @_columns ||= []
     end
 
-    def push(name, **options)
-      @columns.push(Column.new(name, **options))
+    def add_column(name:, **options)
+      columns.push(Column.new(name, **options))
     end
 
     def header
-      @columns.map(&:name)
+      columns.map(&:name)
     end
 
-    def get_data(row)
-      @columns.map { |column| column.digest(row) }
+    def summarize(data)
+      columns.map { |column| column.digest(data) }
     end
   end
 end
