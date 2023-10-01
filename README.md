@@ -61,6 +61,23 @@ class PostCsvBuilder
 end
 
 PostCsvBuilder.new(user_id).to_csv
+
+# or
+
+class PostCsvBuilder
+  include Acb
+
+  add_column name: 'id'
+  add_column name: 'User Name', index: 'user.name'
+  add_column name: 'created_at', format: '%Y-%m-%d'
+  add_column name: 'Comment Amount', index: 'comments.size'
+  add_column name: 'First Comment', index: ->(post) { post.comments.first&.content }
+end
+
+builder = PostCsvBuilder.new
+relations = Post.where(user_id: user_id).preload(:user, :comments)
+builder.load_from(relations)
+builder.to_csv
 ```
 
 ## Code of Conduct
