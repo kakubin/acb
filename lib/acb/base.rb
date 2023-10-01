@@ -18,6 +18,10 @@ module Acb
     end
     alias content_string to_csv
 
+    def load_from(relations)
+      @data = relations
+    end
+
     private
 
     def data
