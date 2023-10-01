@@ -4,34 +4,67 @@ RSpec.describe Acb::Columns do
   describe '#header' do
     subject { instance.header }
 
-    let(:instance) { described_class.new }
+    let(:instance) { klass.new }
+    let(:klass) do
+      Class.new do
+        include Acb::Columns
+      end
+    end
 
-    context 'if no columns' do
+    context 'when no columns' do
       it { is_expected.to eq [] }
     end
 
-    context 'message' do
+    context 'when several columns added' do
       before do
-        columns = [
-          Acb::Column.new('one'),
-          Acb::Column.new('two')
-        ]
-        instance.instance_variable_set(:@columns, columns)
+        instance.add_column(name: 'one')
+        instance.add_column(name: 'two')
       end
 
       it { is_expected.to eq ['one', 'two'] }
     end
   end
 
-  describe '#get_data' do
-    subject { instance.get_data(target) }
+  describe '#add_column' do
+    subject { instance.add_column(name: 'name', **options) }
 
-    let(:instance) { described_class.new }
+    let(:instance) { klass.new }
+    let(:klass) do
+      Class.new do
+        include Acb::Columns
+      end
+    end
+
+    let(:options) { {} }
+
+    it 'add an instance of Acb::Column' do
+      expect { subject }.to change(instance.columns, :count).by(1)
+      expect(instance.columns.last).to be_a Acb::Column
+    end
+
+    context 'when options for Column given' do
+      let(:options) { { index: 'key_name' } }
+      it 'is reflected to Column instance' do
+        expect { subject }.to change(instance.columns, :count).by(1)
+        expect(instance.columns.last.instance_variable_get(:@index)).to eq ['key_name']
+      end
+    end
+  end
+
+  describe '#summarize' do
+    subject { instance.summarize(target) }
+
+    let(:instance) { klass.new }
+    let(:klass) do
+      Class.new do
+        include Acb::Columns
+      end
+    end
     let(:target) { Post.new(content: 'post content', created_at: Time.new(2022, 12, 24, 18, 0, 0)) }
 
     before do
-      instance.push('name', index: 'content')
-      instance.push('name', index: 'created_at', format: '%Y%m%d%H%M')
+      instance.add_column(name: 'name', index: 'content')
+      instance.add_column(name: 'name', index: 'created_at', format: '%Y%m%d%H%M')
     end
 
     it { is_expected.to eq ['post content', '202212241800'] }

@@ -4,21 +4,15 @@ module Acb
   module Base
     extend ActiveSupport::Concern
 
-    class_methods do
-      def columns
-        @columns ||= Columns.new
-      end
-
-      def add_column(name:, **options)
-        columns.push(name, **options)
-      end
+    module ClassMethods
+      include Columns
     end
 
     def to_csv(**options)
       CSV.generate(**options) do |csv|
-        csv << self.class.columns.header
+        csv << self.class.header
         data.each do |row|
-          csv << get_data_from(row)
+          csv << summarize(row)
         end
       end
     end
@@ -31,8 +25,8 @@ module Acb
       @data.find_each
     end
 
-    def get_data_from(row)
-      self.class.columns.get_data(row)
+    def summarize(row)
+      self.class.summarize(row)
     end
   end
 end
