@@ -6,8 +6,9 @@ module Acb
       @_columns ||= []
     end
 
-    def add_column(name:, **options)
-      columns.push(Column.new(name, **options))
+    def add_column(column = nil, name: nil, **options)
+      column ||= Column.new(name, **options)
+      columns.push(column)
     end
 
     def header

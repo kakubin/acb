@@ -49,6 +49,15 @@ RSpec.describe Acb::Columns do
         expect(instance.columns.last.instance_variable_get(:@index)).to eq ['key_name']
       end
     end
+
+    context 'when passed instance of Acb::Column' do
+      let(:column) { Acb::Column.new('name', index: 'content') }
+
+      it 'add an instance of Acb::Column' do
+        expect { instance.add_column(column) }.to change(instance.columns, :count).by(1)
+        expect(instance.columns.last).to be_a Acb::Column
+      end
+    end
   end
 
   describe '#summarize' do

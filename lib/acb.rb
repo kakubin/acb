@@ -10,6 +10,9 @@ module Acb
   autoload :Base, 'acb/base'
   autoload :Column, 'acb/column'
   autoload :Columns, 'acb/columns'
+  autoload :Custom, 'acb/custom'
+  autoload :MasterColumn, 'acb/master_column'
+  autoload :Registry, 'acb/registry'
 
   include Base
 end
