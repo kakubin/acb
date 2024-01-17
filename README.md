@@ -50,34 +50,44 @@ class PostCsvBuilder
   add_column name: 'created_at', format: '%Y-%m-%d'
   add_column name: 'Comment Amount', index: 'comments.size'
   add_column name: 'First Comment', index: ->(post) { post.comments.first&.content }
-
-  def initialize(user_id)
-    @data = Post.where(user_id: user_id)
-  end
-
-  def relations
-    [:user, :comments]
-  end
-end
-
-PostCsvBuilder.new(user_id).to_csv
-
-# or
-
-class PostCsvBuilder
-  include Acb
-
-  add_column name: 'id'
-  add_column name: 'User Name', index: 'user.name'
-  add_column name: 'created_at', format: '%Y-%m-%d'
-  add_column name: 'Comment Amount', index: 'comments.size'
-  add_column name: 'First Comment', index: ->(post) { post.comments.first&.content }
 end
 
 builder = PostCsvBuilder.new
 relations = Post.where(user_id: user_id).preload(:user, :comments)
 builder.load_from(relations)
 builder.to_csv
+```
+
+### Advanced
+
+You can also output with dynamically define columns at runtime.
+Names too.
+
+```ruby
+class PostCsvAdvancedBuilder
+  include Acb::Custom
+
+  add_master_column key: 'id'
+  add_master_column key: 'user_name', index: 'user.name'
+end
+
+builder1 = PostCsvAdvancedBuilder.use([
+  { key: 'id', name: 'id' },
+])
+
+builder1.add_column(name: 'first comment', index: ->(post) { post.comments.first&.content })
+
+builder1_instance = builder1.new
+builder1_instance.load_from(relations)
+builder1_instance.to_csv
+
+builder2_instance = PostCsvAdvancedBuilder.use([
+  { key: 'id', name: 'id' },
+  { key: 'user_name', name: 'User Name' },
+]).new
+
+builder2_instance.load_from(relations)
+builder2_instance.to_csv
 ```
 
 ## Code of Conduct
